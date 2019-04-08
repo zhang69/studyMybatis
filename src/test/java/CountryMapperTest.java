@@ -1,6 +1,8 @@
 package com.zzy.study.mapper;
 
+import com.zzy.study.dao.SysUserMapper;
 import com.zzy.study.model.Country;
+import com.zzy.study.model.SysUser;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -42,6 +44,12 @@ public class CountryMapperTest {
         } finally {
             sqlSession.close();
         }
+    }
+    @Test
+    public void testMapper() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        List<SysUser> selectList = sqlSession.selectList("selectById",1);
+        selectList.forEach(x->System.out.println(x));
     }
 
 }

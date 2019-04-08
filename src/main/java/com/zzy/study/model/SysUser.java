@@ -2,6 +2,7 @@ package com.zzy.study.model;
 
 import com.baomidou.mybatisplus.enums.IdType;
 
+import java.beans.Transient;
 import java.sql.Blob;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
@@ -52,7 +53,7 @@ public class SysUser extends Model<SysUser> {
      * 头像
      */
     @TableField("head_img")
-    private Blob headImg;
+    private byte[] headImg;
     /**
      * 创建时间
      */
@@ -100,11 +101,11 @@ public class SysUser extends Model<SysUser> {
         this.userInfo = userInfo;
     }
 
-    public Blob getHeadImg() {
+    public byte[] getHeadImg() {
         return headImg;
     }
 
-    public void setHeadImg(Blob headImg) {
+    public void setHeadImg(byte[] headImg) {
         this.headImg = headImg;
     }
 

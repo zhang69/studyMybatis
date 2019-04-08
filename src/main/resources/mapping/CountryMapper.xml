@@ -3,7 +3,7 @@
 <mapper namespace="CountryMapper">
     <!--注意namespace和resultType-->
     <select id="selectCountrys" resultType="Country">
-        select  * FROM country
+        select * FROM country
     </select>
 
 </mapper>

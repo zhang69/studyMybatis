@@ -25,6 +25,7 @@
     </environments>
     <mappers>
         <!-- common，注意xml放入到resources -->
-        <mapper resource="CountryMapper.xml" />
+        <mapper resource="mapping/CountryMapper.xml" />
+        <mapper resource="mapping/SysUserMapper.xml" />
     </mappers>
 </configuration>

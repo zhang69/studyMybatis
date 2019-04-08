@@ -9,8 +9,11 @@
         <result column="user_password" property="userPassword" />
         <result column="user_email" property="userEmail" />
         <result column="user_info" property="userInfo" />
-        <result column="head_img" property="headImg" />
+        <result column="head_img" property="headImg"  jdbcType="BLOB"/>
         <result column="create_time" property="createTime" />
     </resultMap>
-
+    
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT * FROM SYS_USER WHERE ID = #{id}
+    </select>
 </mapper>
