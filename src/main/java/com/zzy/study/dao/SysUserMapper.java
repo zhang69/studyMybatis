@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @since 2019-04-05
  */
 public interface SysUserMapper {
-
+    public void insertUser(SysUser sysUser);
 }

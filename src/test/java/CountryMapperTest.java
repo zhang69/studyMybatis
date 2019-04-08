@@ -1,7 +1,10 @@
 package com.zzy.study.mapper;
 
+import com.zzy.study.dao.CountryMapper;
+import com.zzy.study.dao.SysRoleMapper;
 import com.zzy.study.dao.SysUserMapper;
 import com.zzy.study.model.Country;
+import com.zzy.study.model.SysRole;
 import com.zzy.study.model.SysUser;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -11,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.Reader;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,6 +54,49 @@ public class CountryMapperTest {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         List<SysUser> selectList = sqlSession.selectList("selectById",1);
         selectList.forEach(x->System.out.println(x));
+    }
+
+    @Test
+    public void testALL() {
+        //linux 下的mapper文件大小写敏感？？必须用全小写？
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        List<SysUser> selectList = sqlSession.selectList("selectAll");
+        selectList.forEach(x->System.out.println(x));
+    }
+
+    @Test
+    public void testMapperCountry() {
+        //xml 里的namespace对应着的是mapper.java的相对路径
+        //别名只对实体类有效，对mapper无效
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+        List<Country> countries = mapper.selectCountrys();
+        countries.forEach(x->System.out.println(x));
+    }    @Test
+    public void testInsertUser() {
+        //注意事务提交即可
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
+        SysUser sysUser = new SysUser();
+        sysUser.setCreateTime(new Date());
+        sysUser.setHeadImg(new byte[]{1,2,3});
+        sysUser.setUserEmail("1@1");
+        sysUser.setUserName("zhangzhiyuan");
+        sysUser.setUserInfo("zzy");
+        sysUser.setUserPassword("helloworld");
+        mapper.insertUser(sysUser);
+        sqlSession.commit();
+        sqlSession.close();
+
+    }
+
+    @Test
+    public void testTableUnion() {
+
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SysRoleMapper mapper = sqlSession.getMapper(SysRoleMapper.class);
+        List<SysRole> countries = mapper.selectRoleByUser();
+        countries.forEach(x->System.out.println(x));
     }
 
 }

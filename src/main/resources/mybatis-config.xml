@@ -5,6 +5,7 @@
         <!-- changes from the defaults for testing -->
         <!--todo log4j 配置学习-->
         <setting name="logImpl" value="log4j" />
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
     <typeAliases>
         <!--zzy 这里是简化实体类-->
@@ -27,5 +28,6 @@
         <!-- common，注意xml放入到resources -->
         <mapper resource="mapping/CountryMapper.xml" />
         <mapper resource="mapping/SysUserMapper.xml" />
+        <mapper resource="mapping/SysRoleMapper.xml" />
     </mappers>
 </configuration>

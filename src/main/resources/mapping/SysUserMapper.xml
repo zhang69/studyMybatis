@@ -3,7 +3,7 @@
 <mapper namespace="com.zzy.study.dao.SysUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.zzy.study.model.SysUser">
+    <resultMap id="BaseResultMap" type="SysUser">
         <id column="id" property="id" />
         <result column="user_name" property="userName" />
         <result column="user_password" property="userPassword" />
@@ -14,6 +14,16 @@
     </resultMap>
     
     <select id="selectById" resultMap="BaseResultMap">
-        SELECT * FROM SYS_USER WHERE ID = #{id}
+        SELECT * FROM sys_user WHERE ID = #{id}
     </select>
+
+    <select id="selectAll" resultType="com.zzy.study.model.SysUser">
+        SELECT * FROM sys_user
+    </select>
+
+    <insert id="insertUser" parameterType="SysUser">
+        INSERT INTO sys_user VALUES (
+          #{id},#{userName},#{userPassword},#{userEmail},#{userInfo},#{headImg},#{createTime}
+        )
+    </insert>
 </mapper>

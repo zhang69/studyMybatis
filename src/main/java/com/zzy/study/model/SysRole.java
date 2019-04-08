@@ -46,6 +46,15 @@ public class SysRole extends Model<SysRole> {
     @TableField("create_time")
     private Date createTime;
 
+    private SysUser user;
+
+    public SysUser getUser() {
+        return user;
+    }
+
+    public void setSysUser(SysUser user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
