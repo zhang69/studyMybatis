@@ -29,4 +29,8 @@
         select LAST_INSERT_ID()
         </selectKey>
     </insert>
+
+    <update id="updateById">
+        UPDATE sys_user SET user_name = #{userName},user_password = #{userPassword},user_email = #{userEmail},user_info = #{userInfo},user_name = #{},user_name = #{} WHERE id = #{id}
+    </update>
 </mapper>
