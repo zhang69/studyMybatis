@@ -72,7 +72,8 @@ public class CountryMapperTest {
         CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
         List<Country> countries = mapper.selectCountrys();
         countries.forEach(x->System.out.println(x));
-    }    @Test
+    }
+    @Test
     public void testInsertUser() {
         //注意事务提交即可
         SqlSession sqlSession = sqlSessionFactory.openSession();
@@ -82,7 +83,6 @@ public class CountryMapperTest {
         //useGeneratedKeys="true" keyProperty="id" 先访问数据库，获取数据库生成的主键
         sysUser.setCreateTime(new Date());
         sysUser.setHeadImg(new byte[]{1,2,3});
-        sysUser.setUserEmail("1@1");
         sysUser.setUserName("zhangzhiyuan");
         sysUser.setUserInfo("zzy");
         sysUser.setUserPassword("helloworld");
@@ -99,8 +99,62 @@ public class CountryMapperTest {
 
         SqlSession sqlSession = sqlSessionFactory.openSession();
         SysRoleMapper mapper = sqlSession.getMapper(SysRoleMapper.class);
-        List<SysRole> countries = mapper.selectRoleByUser();
+        List<SysRole> countries = mapper.selectRoleByUser(1l,1l);
         countries.forEach(x->System.out.println(x));
     }
+
+    @Test
+    public void testUpdateUser() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
+        SysUser sysUser = mapper.selectById(1001);
+        sysUser.setUserInfo("zhangzhiyuan");
+        int i = mapper.updateById(sysUser);
+        sqlSession.commit();
+        sqlSession.close();
+        System.out.println(i);
+    }
+
+    /**
+     * mybatis mapper接口可以直接执行的原因是利用动态代理+sqlSession.selectList("selectAll") sql的id
+     *
+     */
+    @Test
+    public void testMultiParam() {
+        //多个参数即使同名，也要使用@param来显示指定
+        //类的属性取值要用类名加.的方式
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SysRoleMapper mapper = sqlSession.getMapper(SysRoleMapper.class);
+        List<SysRole> sysRoles = mapper.selectRoleByUser(1L,null);
+        sysRoles.forEach(x->System.out.println(x));
+    }
+
+    /**
+     * 格式
+     * <choose>
+     *     <when test="">
+     *
+     *     </when>
+     *     <when test="">
+     *
+     *     </when>
+     *     <otherwise>
+     *         1=2
+     *     </otherwise>
+     * </choose>
+     *
+     * 注意if 不支持else的形式
+     */
+    @Test
+    public void testChoose() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
+        List<SysUser> zhangzhiyuan = mapper.selectByNameOrInfo("zhangzhiyuan", null);
+        zhangzhiyuan.forEach(x->System.out.println());
+    }
+    /**
+     * <where>可以解决1=1的问题，自动剔除开头的and or</where>
+     * <set>去除调结尾的逗号，还是要加上id=#{id},还</set>
+     */
 
 }

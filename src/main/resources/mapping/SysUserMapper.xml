@@ -21,9 +21,18 @@
         SELECT * FROM sys_user
     </select>
     <!--Oracle的selectKey 要写在前面，order="BEFORE"，oracle是在插入前必须获取到对应的id值，而且取用的是一个已存在的序列的值 select SEQ_ID.nextval from dual;-->
+    <!--解决插入空值的问题-->
     <insert id="insertUser" parameterType="SysUser" >
-        INSERT INTO sys_user(user_name,user_password,user_email,user_info,head_img,create_time) VALUES (
-          #{userName},#{userPassword},#{userEmail},#{userInfo},#{headImg},#{createTime}
+        INSERT INTO sys_user(user_name,user_password,
+        <if test="userEmail != null">
+        user_email,
+        </if>
+        user_info,head_img,create_time) VALUES (
+          #{userName},#{userPassword},
+        <if test="userEmail != null">
+        #{userEmail},
+        </if>
+        #{userInfo},#{headImg},#{createTime}
         )
         <selectKey keyColumn="id" resultType="long" keyProperty="id" order="AFTER">
         select LAST_INSERT_ID()
@@ -31,6 +40,22 @@
     </insert>
 
     <update id="updateById">
-        UPDATE sys_user SET user_name = #{userName},user_password = #{userPassword},user_email = #{userEmail},user_info = #{userInfo},user_name = #{},user_name = #{} WHERE id = #{id}
+        UPDATE sys_user SET user_name = #{userName},user_password = #{userPassword},user_email = #{userEmail},user_info = #{userInfo},head_img = #{headImg},create_time = #{createTime} WHERE id = #{id}
     </update>
+
+    <select id="selectByNameOrInfo" resultType="SysUser">
+        SELECT * FROM sys_user where 1=1
+        <choose>
+            <when test="userName != null">
+                and user_name = #{userName}
+            </when>
+            <when test="orderInfo != null">
+                and order_info = #{orderInfo}
+            </when>
+            <otherwise>
+                and 2=3
+            </otherwise>
+        </choose>
+
+    </select>
 </mapper>

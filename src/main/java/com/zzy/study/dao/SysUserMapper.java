@@ -2,6 +2,9 @@ package com.zzy.study.dao;
 
 import com.zzy.study.model.SysUser;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,10 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  */
 public interface SysUserMapper {
     public int insertUser(SysUser sysUser);
+
+    public int updateById(SysUser sysUser);
+
+    public SysUser selectById(int id);
+
+    public List<SysUser> selectByNameOrInfo(@Param("userName") String userName, @Param("userInfo") String userInfo);
 }

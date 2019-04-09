@@ -2,6 +2,7 @@ package com.zzy.study.dao;
 
 import com.zzy.study.model.SysRole;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,5 +15,5 @@ import java.util.List;
  * @since 2019-04-05
  */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
-    List<SysRole> selectRoleByUser();
+    List<SysRole> selectRoleByUser(@Param("userId") Long userId, @Param("enabled") Long enabled);
 }
