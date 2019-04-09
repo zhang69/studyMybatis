@@ -156,6 +156,8 @@ public class CountryMapperTest {
      * <where>可以解决1=1的问题，自动剔除开头的and or</where>
      * <set>去除调结尾的逗号，还是要加上id=#{id},还</set>
      * <trim prefix="前缀包含" suffix="后缀包含" prefixOverrides="前缀过滤" suffixOverrides="后缀过滤"></trim>
+     * <bind name = "" value = ""/> 组合concat函数功能，oracle只能双拼，mysql可以多拼的问题
+     * <if test="_databaseId == 'mysql'"><if/>多数据库类型问题可以用,额外配置<databaseidProvidertype = "DB_VENDOR" />
      */
 
 }
