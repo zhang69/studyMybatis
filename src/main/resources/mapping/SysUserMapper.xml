@@ -17,13 +17,16 @@
         SELECT * FROM sys_user WHERE ID = #{id}
     </select>
 
-    <select id="selectAll" resultType="com.zzy.study.model.SysUser">
+    <select id="selectAll" resultType="com.zzy.study.model.SysUser" >
         SELECT * FROM sys_user
     </select>
 
-    <insert id="insertUser" parameterType="SysUser">
-        INSERT INTO sys_user VALUES (
-          #{id},#{userName},#{userPassword},#{userEmail},#{userInfo},#{headImg},#{createTime}
+    <insert id="insertUser" parameterType="SysUser" >
+        INSERT INTO sys_user(user_name,user_password,user_email,user_info,head_img,create_time) VALUES (
+          #{userName},#{userPassword},#{userEmail},#{userInfo},#{headImg},#{createTime}
         )
+        <selectKey keyColumn="id" resultType="long" keyProperty="id" order="AFTER">
+        select LAST_INSERT_ID()
+        </selectKey>
     </insert>
 </mapper>

@@ -2,8 +2,6 @@ package com.zzy.study.model;
 
 import com.baomidou.mybatisplus.enums.IdType;
 
-import java.beans.Transient;
-import java.sql.Blob;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;

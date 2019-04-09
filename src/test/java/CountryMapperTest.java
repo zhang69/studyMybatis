@@ -1,4 +1,4 @@
-package com.zzy.study.mapper;
+
 
 import com.zzy.study.dao.CountryMapper;
 import com.zzy.study.dao.SysRoleMapper;
@@ -78,13 +78,17 @@ public class CountryMapperTest {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
         SysUser sysUser = new SysUser();
+        //设置jdbcType=time会报错，数据库里面的字段是timestamp而传递的数据是time，只有后面的部分。
+        //useGeneratedKeys="true" keyProperty="id" 先访问数据库，获取数据库生成的主键
         sysUser.setCreateTime(new Date());
         sysUser.setHeadImg(new byte[]{1,2,3});
         sysUser.setUserEmail("1@1");
         sysUser.setUserName("zhangzhiyuan");
         sysUser.setUserInfo("zzy");
         sysUser.setUserPassword("helloworld");
-        mapper.insertUser(sysUser);
+        int i = mapper.insertUser(sysUser);
+        System.out.println(i);
+        System.out.println(sysUser.getId());
         sqlSession.commit();
         sqlSession.close();
 
