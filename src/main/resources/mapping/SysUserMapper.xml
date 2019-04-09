@@ -20,7 +20,7 @@
     <select id="selectAll" resultType="com.zzy.study.model.SysUser" >
         SELECT * FROM sys_user
     </select>
-
+    <!--Oracle的selectKey 要写在前面，order="BEFORE"，oracle是在插入前必须获取到对应的id值，而且取用的是一个已存在的序列的值 select SEQ_ID.nextval from dual;-->
     <insert id="insertUser" parameterType="SysUser" >
         INSERT INTO sys_user(user_name,user_password,user_email,user_info,head_img,create_time) VALUES (
           #{userName},#{userPassword},#{userEmail},#{userInfo},#{headImg},#{createTime}
