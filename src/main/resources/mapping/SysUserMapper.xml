@@ -56,6 +56,5 @@
                 and 2=3
             </otherwise>
         </choose>
-
     </select>
 </mapper>
