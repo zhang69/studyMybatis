@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -58,6 +59,9 @@ public class SysUser extends Model<SysUser> {
     @TableField("create_time")
     private Date createTime;
 
+    private List<SysRole> sysRoleList;
+
+
 
     public Long getId() {
         return id;
@@ -65,6 +69,10 @@ public class SysUser extends Model<SysUser> {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public String getUserName() {
@@ -118,6 +126,14 @@ public class SysUser extends Model<SysUser> {
     @Override
     protected Serializable pkVal() {
         return this.id;
+    }
+
+    public List<SysRole> getSysRoleList() {
+        return sysRoleList;
+    }
+
+    public void setSysRoleList(List<SysRole> sysRoleList) {
+        this.sysRoleList = sysRoleList;
     }
 
     @Override

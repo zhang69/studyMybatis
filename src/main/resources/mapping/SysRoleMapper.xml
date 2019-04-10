@@ -26,4 +26,7 @@
         </if>
     </select>
 
+    <select id="selectRoleById" resultType="SysRole">
+        SELECT * FROM sys_role where id = #{id}
+    </select>
 </mapper>

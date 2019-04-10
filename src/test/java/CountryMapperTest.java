@@ -152,6 +152,7 @@ public class CountryMapperTest {
         List<SysUser> zhangzhiyuan = mapper.selectByNameOrInfo("zhangzhiyuan", null);
         zhangzhiyuan.forEach(x->System.out.println());
     }
+
     /**
      * <where>可以解决1=1的问题，自动剔除开头的and or</where>
      * <set>去除调结尾的逗号，还是要加上id=#{id},还</set>
@@ -159,5 +160,27 @@ public class CountryMapperTest {
      * <bind name = "" value = ""/> 组合concat函数功能，oracle只能双拼，mysql可以多拼的问题
      * <if test="_databaseId == 'mysql'"><if/>多数据库类型问题可以用,额外配置<databaseidProvidertype = "DB_VENDOR" />
      */
+    /**
+     * 测试Association 的，Association是写在resultmap里面的，resultmap可以extends父类，书写起来比较美观
+     */
+    @Test
+    public void testAss() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
+        List<SysUser> sysUsers = mapper.selectAssociation();
+        sysUsers.forEach(x->System.out.println(x));
+    }
 
+    /**
+     * 首先注意有些方法会造成加载 equal toString clone hashcode 注意一下
+     * 主要是配置fetchType="lazy"
+     * 和<setting name="aggressiveLazyLoading" value="false"/>
+     */
+    @Test
+    public void testAssSelect() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
+        List<SysUser> sysUsers = mapper.selectAssociationBySelect();
+        sysUsers.forEach(x->System.out.println(x.getUserName()));
+    }
 }

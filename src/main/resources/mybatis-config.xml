@@ -6,6 +6,8 @@
         <!--todo log4j 配置学习-->
         <setting name="logImpl" value="log4j" />
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 按需加载: false:使用关联属性，及时加载;    true,加载对象，则加载所有属性， -->
+        <setting name="aggressiveLazyLoading" value="false"/>
     </settings>
     <typeAliases>
         <!--zzy 这里是简化实体类-->
