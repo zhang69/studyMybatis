@@ -152,7 +152,6 @@ public class CountryMapperTest {
         List<SysUser> zhangzhiyuan = mapper.selectByNameOrInfo("zhangzhiyuan", null);
         zhangzhiyuan.forEach(x->System.out.println());
     }
-
     /**
      * <where>可以解决1=1的问题，自动剔除开头的and or</where>
      * <set>去除调结尾的逗号，还是要加上id=#{id},还</set>
@@ -168,6 +167,19 @@ public class CountryMapperTest {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
         List<SysUser> sysUsers = mapper.selectAssociation();
+        sysUsers.forEach(x->System.out.println(x));
+    }
+
+    /**
+     * 测试一对一关联
+     * 一对一关联可以使用resultMap，本质上就是对查找得到的结果的一种映射而已
+     * 使用resultMap需要注意的是防两个表里面的字段有重名的,使用別名，对应的resultmap里面也要注意
+     */
+    @Test
+    public void testONE2ONE() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
+        List<SysUser> sysUsers = mapper.selectUserAndRole();
         sysUsers.forEach(x->System.out.println(x));
     }
 

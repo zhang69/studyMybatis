@@ -23,6 +23,8 @@ public interface SysUserMapper {
 
     public List<SysUser> selectByNameOrInfo(@Param("userName") String userName, @Param("userInfo") String userInfo);
 
+    public List<SysUser> selectUserAndRole();
+
     public List<SysUser> selectAssociation();
 
     public List<SysUser> selectAssociationBySelect();

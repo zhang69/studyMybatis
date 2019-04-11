@@ -12,6 +12,18 @@
         <result column="head_img" property="headImg"  jdbcType="BLOB"/>
         <result column="create_time" property="createTime" />
     </resultMap>
+
+    <resultMap id="BaseResultMap2" extends="BaseResultMap" type="SysUser">
+        <association property="sysRole" columnPrefix="role_" javaType="SysRole">
+        <id column="id" property="id" />
+        <result column="role_name" property="roleName" />
+        <result column="enabled" property="enabled" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        </association>
+    </resultMap>
+
+
     <!--
     核心点1 extends 继承父类的resultmap
     核心点2 association标签  property指代实体类成员变量 前缀的目的是给column加，防止重复属性名
