@@ -21,6 +21,8 @@ public interface SysUserMapper {
 
     public SysUser selectById(int id);
 
+    public List<SysUser> selectAll();
+
     public List<SysUser> selectByNameOrInfo(@Param("userName") String userName, @Param("userInfo") String userInfo);
 
     public List<SysUser> selectUserAndRole();

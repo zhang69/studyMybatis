@@ -195,4 +195,64 @@ public class CountryMapperTest {
         List<SysUser> sysUsers = mapper.selectAssociationBySelect();
         sysUsers.forEach(x->System.out.println(x.getUserName()));
     }
+
+    /**
+     * 默认开启mybatis一级缓存，flushCache="false",可以破坏
+     * 一级缓存的作用，当调有方法和参数是一样的时候，获取的是第一次获取对象的引用，不再去数据库查
+     */
+    @Test
+    public void testCached() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
+        SysUser sysUser = mapper.selectById(1);
+        sysUser.setUserName("bbbbbbbbbbb");
+        SysUser sysUser1 = mapper.selectById(1);
+        System.out.println(sysUser1);
+        SqlSession sqlSession1 = sqlSessionFactory.openSession();
+        SysUserMapper mapper1 = sqlSession1.getMapper(SysUserMapper.class);
+        SysUser sysUser2 = mapper1.selectById(1);
+        System.out.println(sysUser2);
+    }
+
+    /**
+     * 无论单个还是集合，效果是一样对，都会受到影响
+     */
+    @Test
+    public void testCachedAll() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
+        List<SysUser> sysUsers = mapper.selectAll();
+        sysUsers.forEach(x->System.out.println(x));
+        sysUsers.get(0).setUserName("bbbbbbbbbbb");
+        List<SysUser> sysUsers1 = mapper.selectAll();
+        sysUsers1.forEach(x->System.out.println(x));
+    }
+
+    /**
+     * 二级缓存 只需要加cache标签即可，但是必须有sqlSession.close方法执行，才可以将二级缓存刷新到mybatis里的hashmap中去
+     * 这里实际上是有一个小问题的，如果有修改数据，仅仅修改而没有保存，在close的时候会保存进2级缓存，致使下一次查询的结果有错误
+     * 避免没有必要对修改，如果不需要保存的话
+     *
+     * 二级缓存会出现脏数据的影响 ，这时候需要用到cache-ref 参照缓存
+     * 但是参照缓存对于多表关联还是会有问题，因此需要慎用
+     */
+    @Test
+    public void testCached2(){
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SysRoleMapper mapper = sqlSession.getMapper(SysRoleMapper.class);
+        SysRole sysRole = mapper.selectRoleById(1L);
+        sysRole.setRoleName("new rolename");
+        SysRole sysRole1 = mapper.selectRoleById(1L);
+        System.out.println(sysRole==sysRole1);
+        sqlSession.close();
+        SqlSession sqlSession1 = sqlSessionFactory.openSession();
+        SysRoleMapper mapper1 = sqlSession1.getMapper(SysRoleMapper.class);
+        SysRole sysRole2 = mapper1.selectRoleById(1L);
+        SysRole sysRole3 = mapper1.selectRoleById(1L);
+        System.out.println(sysRole2);
+        System.out.println(sysRole3);
+        System.out.println(sysRole2==sysRole3);
+    }
+
+
 }
