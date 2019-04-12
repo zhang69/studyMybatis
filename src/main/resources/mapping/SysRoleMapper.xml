@@ -7,10 +7,27 @@
         <id column="id" property="id" />
         <result column="role_name" property="roleName" />
         <result column="enabled" property="enabled" />
-        <result column="create_by" property="createBy" />
-        <result column="create_time" property="createTime" />
+        <association property="createInfo" javaType="CreateInfo">
+            <result column="create_by" property="createBy" />
+            <result column="create_time" property="createTime" />
+        </association>
     </resultMap>
 
+    <resultMap id="roleAndPrivilege" type="SysRole" extends="BaseResultMap">
+        <collection property="privilegeList" fetchType="lazy" column="{roleId = id}" select="com.zzy.study.dao.SysPrivilegeMapper.selectPrivilegeByRoleId"/>
+    </resultMap>
+
+    <select id="selectRoleByUserId" resultMap="roleAndPrivilege">
+        select
+        r.id,
+        r.role_name,
+        r.enabled,
+        r.create_by,
+        r.create_time
+        from sys_role r
+        inner join sys_user_role ur on ur.role_id = r.id
+        where ur.user_id = #{userId}
+    </select>
     <select id="selectRoleByUser" resultType="SysRole">
 -- 需要注意的地方是必须要使用 as "指定内涵对象user的userName字段" 这个很关键，否则无法映射
         select r.*,u.user_name as "user.userName",u.user_email as "user.userEmail"

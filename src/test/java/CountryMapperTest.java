@@ -196,6 +196,14 @@ public class CountryMapperTest {
         sysUsers.forEach(x->System.out.println(x.getUserName()));
     }
 
+    @Test
+    public void testSelectRoleByColAndAsso() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        SysRoleMapper mapper = sqlSession.getMapper(SysRoleMapper.class);
+        List<SysRole> sysRoles = mapper.selectRoleByUserId(1L);
+        sysRoles.forEach(x->System.out.println(x));
+    }
+
     /**
      * 默认开启mybatis一级缓存，flushCache="false",可以破坏
      * 一级缓存的作用，当调有方法和参数是一样的时候，获取的是第一次获取对象的引用，不再去数据库查

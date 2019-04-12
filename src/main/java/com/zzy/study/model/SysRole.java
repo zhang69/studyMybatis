@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -34,7 +35,8 @@ public class SysRole extends Model<SysRole> {
     /**
      * 有效标志
      */
-    private Integer enabled;
+    private Enabled enabled;
+
     /**
      * 创建人
      */
@@ -47,6 +49,29 @@ public class SysRole extends Model<SysRole> {
     private Date createTime;
 
     private SysUser user;
+
+    private CreateInfo createInfo;
+
+    public List<SysPrivilege> getPrivilegeList() {
+        return privilegeList;
+    }
+
+    public void setPrivilegeList(List<SysPrivilege> privilegeList) {
+        this.privilegeList = privilegeList;
+    }
+
+    private List<SysPrivilege> privilegeList;
+    public void setUser(SysUser user) {
+        this.user = user;
+    }
+
+    public CreateInfo getCreateInfo() {
+        return createInfo;
+    }
+
+    public void setCreateInfo(CreateInfo createInfo) {
+        this.createInfo = createInfo;
+    }
 
     public SysUser getUser() {
         return user;
@@ -72,11 +97,11 @@ public class SysRole extends Model<SysRole> {
         this.roleName = roleName;
     }
 
-    public Integer getEnabled() {
+    public Enabled getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(Integer enabled) {
+    public void setEnabled(Enabled enabled) {
         this.enabled = enabled;
     }
 
